@@ -1,0 +1,326 @@
+import os
+import io
+import uuid
+import base64
+import logging
+from typing import Dict, Any, List, Optional
+from PIL import Image, ImageOps, ImageFilter, ImageDraw
+from sqlalchemy.orm import Session
+
+from models import TryOnSession, WardrobeItem
+
+logger = logging.getLogger(__name__)
+
+# Global state for Colab GPU URL override
+_colab_gpu_url: Optional[str] = os.getenv("VTON_COLAB_URL")
+
+
+def set_colab_gpu_url(url: str):
+    global _colab_gpu_url
+    if url:
+        _colab_gpu_url = url.strip().rstrip("/")
+    else:
+        _colab_gpu_url = None
+
+
+def get_colab_gpu_url() -> Optional[str]:
+    return _colab_gpu_url
+
+
+def detect_skin_tone_from_b64(image_b64: str) -> Dict[str, Any]:
+    """Analyzes upper facial/neck region of a person photo to auto-detect skin tone."""
+    import colorsys
+
+    if not image_b64:
+        return {"status": "SUCCESS", "skin_tone": "Medium / Wheatish", "recommended_colors": ["navy", "white", "black"]}
+
+    try:
+        b64_str = image_b64.split(",", 1)[1] if "," in image_b64 else image_b64
+        img_bytes = base64.b64decode(b64_str)
+        img = Image.open(io.BytesIO(img_bytes)).convert("RGB")
+
+        w, h = img.size
+        crop_box = (int(w * 0.30), int(h * 0.12), int(w * 0.70), int(h * 0.40))
+        face_crop = img.crop(crop_box).resize((60, 60))
+        pixels = list(face_crop.getdata())
+
+        skin_pixels = []
+        for r, g, b in pixels:
+            if r > 60 and g > 40 and b > 20 and max(r, g, b) - min(r, g, b) > 10 and abs(r - g) > 10 and r > g and r > b:
+                h_val, s_val, v_val = colorsys.rgb_to_hsv(r / 255.0, g / 255.0, b / 255.0)
+                skin_pixels.append((v_val, s_val))
+
+        if not skin_pixels:
+            skin_pixels = [colorsys.rgb_to_hsv(r / 255.0, g / 255.0, b / 255.0)[2:0:-1] for r, g, b in pixels]
+
+        avg_v = sum(p[0] for p in skin_pixels) / len(skin_pixels) if skin_pixels else 0.60
+
+        if avg_v > 0.76:
+            skin_tone = "Fair / Ivory"
+            rec = ["navy", "emerald green", "ruby red", "royal blue", "black"]
+        elif avg_v > 0.52:
+            skin_tone = "Medium / Wheatish"
+            rec = ["white", "navy blue", "olive green", "maroon", "black"]
+        elif avg_v > 0.38:
+            skin_tone = "Dusky / Tan"
+            rec = ["coral", "beige", "white", "emerald green", "teal"]
+        else:
+            skin_tone = "Dark / Deep"
+            rec = ["bright white", "yellow", "gold", "light blue", "red"]
+
+        return {
+            "status": "SUCCESS",
+            "skin_tone": skin_tone,
+            "brightness": round(avg_v, 2),
+            "recommended_colors": rec
+        }
+    except Exception as e:
+        logger.warning(f"Skin tone auto-detection failed: {e}")
+        return {"status": "SUCCESS", "skin_tone": "Medium / Wheatish", "recommended_colors": ["navy", "white", "black"]}
+
+
+def create_tryon_session(user_id: int, garment_ids: List[int], db: Session) -> Dict[str, Any]:
+    """Creates a new Virtual Try-On session token."""
+    import json
+    token = f"vton_{uuid.uuid4().hex[:12]}"
+    session = TryOnSession(
+        user_id=user_id,
+        session_token=token,
+        status="IDLE",
+        active_garment_ids=json.dumps(garment_ids)
+    )
+    db.add(session)
+    db.commit()
+    db.refresh(session)
+
+    return {
+        "session_token": session.session_token,
+        "status": session.status,
+        "active_garment_ids": garment_ids,
+        "colab_gpu_url": _colab_gpu_url
+    }
+
+
+def process_tryon_frame(
+    session_token: str,
+    garment_id: int,
+    person_image_b64: str,
+    db: Session,
+    upload_dir: str,
+    colab_url_override: Optional[str] = None,
+    height: Optional[str] = None,
+    weight: Optional[str] = None,
+    skin_tone: Optional[str] = None,
+    body_type: Optional[str] = None,
+    complexion_note: Optional[str] = None
+) -> Dict[str, Any]:
+    """Processes a Virtual Try-On request using a lightweight local CPU overlay for offline demos."""
+    # 1. Fetch Garment Item
+    garment_item = db.query(WardrobeItem).filter(WardrobeItem.id == garment_id).first()
+    if not garment_item:
+        return {"status": "ERROR", "message": "Selected garment item not found."}
+
+    # Locate local garment image disk path
+    garment_disk_path = os.path.join(
+        os.path.dirname(upload_dir),
+        (garment_item.image_path or "").replace("/", os.sep)
+    )
+
+    if not os.path.exists(garment_disk_path):
+        # Fallback if image path relative
+        garment_disk_path = os.path.join(upload_dir, os.path.basename(garment_item.image_path or ""))
+
+    if not os.path.exists(garment_disk_path):
+        return {"status": "ERROR", "message": "Garment image file missing on disk."}
+
+    try:
+        if os.getenv("CORLEN_API_KEY", "").strip():
+            output_b64, render_filename = _execute_corlen_tryon(
+                person_image_b64, garment_disk_path, garment_item.category, upload_dir
+            )
+            engine = "Corlen AI Virtual Try-On"
+            fit_notes = "Generated by Corlen's hosted virtual try-on model."
+        else:
+            output_b64, render_filename = _execute_local_composite(
+                person_image_b64, garment_disk_path, garment_item.category, upload_dir,
+                body_type=body_type, height=height
+            )
+            engine = "Offline 2D Overlay (local CPU)"
+            fit_notes = "Lightweight 2D preview; garment placement is approximate and is not AI-generated fitting."
+
+        result_url = f"/uploads/{render_filename}"
+        _update_session_db(session_token, "LIVE", result_url, db)
+
+        return {
+            "status": "SUCCESS",
+            "engine": engine,
+            "result_url": result_url,
+            "result_image_b64": output_b64,
+            "fit_notes": fit_notes
+        }
+    except Exception as e:
+        logger.error(f"Try-on processing failed: {e}")
+        return {"status": "ERROR", "message": f"Try-on processing failed: {e}"}
+
+def _execute_corlen_tryon(person_b64: str, garment_disk_path: str, category: str, upload_dir: str):
+    """Runs one Corlen API try-on; API credentials remain server-side."""
+    import json
+    import mimetypes
+    import time
+    import urllib.error
+    import urllib.request
+
+    api_key = os.getenv("CORLEN_API_KEY", "").strip()
+    if not api_key:
+        raise RuntimeError("CORLEN_API_KEY is not configured in backend/.env.")
+
+    def data_uri(value: str, default_mime: str) -> str:
+        if value.startswith("data:") and "," in value:
+            header, payload = value.split(",", 1)
+            mime = header[5:].split(";", 1)[0] or default_mime
+            raw = base64.b64decode(payload)
+        else:
+            mime = default_mime
+            raw = base64.b64decode(value.split(",", 1)[-1])
+        if len(raw) > 8 * 1024 * 1024:
+            raise RuntimeError("Corlen accepts images up to 8 MB each.")
+        return f"data:{mime};base64,{base64.b64encode(raw).decode('ascii')}"
+
+    with open(garment_disk_path, "rb") as garment_file:
+        garment_bytes = garment_file.read(8 * 1024 * 1024 + 1)
+    if len(garment_bytes) > 8 * 1024 * 1024:
+        raise RuntimeError("Selected garment image is larger than Corlen's 8 MB limit.")
+    mime_type = mimetypes.guess_type(garment_disk_path)[0] or "image/jpeg"
+    garment_uri = f"data:{mime_type};base64,{base64.b64encode(garment_bytes).decode('ascii')}"
+
+    cat = (category or "").strip().lower()
+    if cat in {"top", "shirt", "t-shirt", "outerwear", "jacket"}:
+        corlen_category = "upper_body"
+    elif cat in {"bottom", "pant", "pants", "jeans", "skirt"}:
+        corlen_category = "lower_body"
+    else:
+        corlen_category = "full_body"
+
+    person_uri = data_uri(person_b64, "image/jpeg")
+    base_url = "https://www.corlen.io/api/v1"
+    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+    payload = {
+        "customerPhotoBase64": person_uri,
+        "garmentImageUrl": garment_uri,
+        "category": corlen_category,
+    }
+
+    def request_json(url: str, method: str = "GET", body=None):
+        request = urllib.request.Request(
+            url,
+            data=json.dumps(body).encode("utf-8") if body is not None else None,
+            headers=headers,
+            method=method,
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=120) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as err:
+            detail = err.read().decode("utf-8", errors="replace")
+            try:
+                detail = json.loads(detail).get("error", detail)
+            except Exception:
+                pass
+            raise RuntimeError(f"Corlen API returned HTTP {err.code}: {detail[:400]}") from err
+
+    created = request_json(f"{base_url}/tryon", "POST", payload)
+    job_id = created.get("jobId")
+    if not job_id:
+        raise RuntimeError("Corlen did not return a try-on job ID.")
+
+    deadline = time.monotonic() + 180
+    while time.monotonic() < deadline:
+        time.sleep(2.5)
+        result = request_json(f"{base_url}/tryon/{job_id}")
+        if result.get("status") == "completed":
+            result_uri = result.get("resultImageBase64", "")
+            if not result_uri.startswith("data:image/"):
+                raise RuntimeError("Corlen returned an unsupported result image.")
+            _, encoded = result_uri.split(",", 1)
+            image_bytes = base64.b64decode(encoded)
+            filename = f"tryon_corlen_{uuid.uuid4().hex[:10]}.jpg"
+            with open(os.path.join(upload_dir, filename), "wb") as out_file:
+                out_file.write(image_bytes)
+            return result_uri, filename
+        if result.get("status") == "failed":
+            raise RuntimeError(result.get("error") or "Corlen try-on failed.")
+    raise RuntimeError("Corlen try-on timed out after 3 minutes.")
+
+def _execute_local_composite(
+    person_b64: str,
+    garment_disk_path: str,
+    category: str,
+    upload_dir: str,
+    body_type: Optional[str] = None,
+    height: Optional[str] = None
+) -> (str, str):
+    """Executes fast, lightweight CPU PIL image alignment adjusting for body build."""
+    if "," in person_b64:
+        person_b64 = person_b64.split(",", 1)[1]
+    person_bytes = base64.b64decode(person_b64)
+    person_img = Image.open(io.BytesIO(person_bytes)).convert("RGB")
+    garment_img = Image.open(garment_disk_path).convert("RGB")
+
+    pw, ph = person_img.size
+
+    # Adjust width multiplier based on body type
+    w_scale = 1.0
+    if body_type:
+        bt = body_type.lower()
+        if "athletic" in bt or "plus" in bt or "broad" in bt or "curvy" in bt:
+            w_scale = 1.12
+        elif "slim" in bt or "lean" in bt:
+            w_scale = 0.90
+
+    # Target bounds
+    cat = (category or "top").lower()
+    if cat in ("top", "shirt", "t-shirt", "outerwear", "jacket"):
+        tw, th = int(pw * 0.65 * w_scale), int(ph * 0.45)
+        px, py = int((pw - tw) / 2), int(ph * 0.28)
+    elif cat in ("bottom", "pant", "jeans"):
+        tw, th = int(pw * 0.60 * w_scale), int(ph * 0.50)
+        px, py = int((pw - tw) / 2), int(ph * 0.45)
+    else: # dress
+        tw, th = int(pw * 0.70 * w_scale), int(ph * 0.68)
+        px, py = int((pw - tw) / 2), int(ph * 0.26)
+
+    resized_garment = garment_img.resize((tw, th), Image.Resampling.LANCZOS)
+
+    # Soft alpha feather mask
+    mask = Image.new("L", (tw, th), 0)
+    draw = ImageDraw.Draw(mask)
+    draw.rounded_rectangle([4, 4, tw - 4, th - 4], radius=16, fill=240)
+    mask = mask.filter(ImageFilter.GaussianBlur(radius=4))
+
+    result = person_img.copy()
+    result.paste(resized_garment, (px, py), mask)
+
+    render_filename = f"tryon_{uuid.uuid4().hex[:10]}.jpg"
+    render_path = os.path.join(upload_dir, render_filename)
+    result.save(render_path, format="JPEG", quality=90)
+
+    buffered = io.BytesIO()
+    result.save(buffered, format="JPEG", quality=90)
+    output_b64 = "data:image/jpeg;base64," + base64.b64encode(buffered.getvalue()).decode("utf-8")
+
+    return output_b64, render_filename
+
+
+def _save_b64_to_disk(b64_str: str, disk_path: str):
+    if "," in b64_str:
+        b64_str = b64_str.split(",", 1)[1]
+    with open(disk_path, "wb") as f:
+        f.write(base64.b64decode(b64_str))
+
+
+def _update_session_db(session_token: str, status: str, result_url: str, db: Session):
+    session = db.query(TryOnSession).filter(TryOnSession.session_token == session_token).first()
+    if session:
+        session.status = status
+        session.result_url = result_url
+        db.commit()

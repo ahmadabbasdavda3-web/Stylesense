@@ -1,0 +1,71 @@
+id,abs_path,rel_path,category,color,pattern,style,confidence,needs_review
+2,D:\Study\project\smart-wardrobe\backend\uploads\61YzOowcZWL._AC_SX569_.jpg,uploads/61YzOowcZWL._AC_SX569_.jpg,pant,grey,checked,sporty,1.0,0
+4,D:\Study\project\smart-wardrobe\backend\uploads\61muG1K3DFL._AC_SX569_.jpg,uploads/61muG1K3DFL._AC_SX569_.jpg,pant,blue,solid,formal,0.809,0
+6,D:\Study\project\smart-wardrobe\backend\uploads\61zxj5dyIzL._AC_SX569_.jpg,uploads/61zxj5dyIzL._AC_SX569_.jpg,pant,grey,solid,sporty,0.892,0
+11,D:\Study\project\smart-wardrobe\backend\uploads\81l5ZD2Gg8L._AC_SX679_.jpg,uploads/81l5ZD2Gg8L._AC_SX679_.jpg,shirt,green,solid,casual,1.0,0
+14,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.10 PM (11).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.10 PM (11).jpeg,shirt,blue,checked,formal,0.821,0
+21,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.10 PM (7).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.10 PM (7).jpeg,shirt,beige,striped,casual,0.812,0
+22,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.10 PM (8).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.10 PM (8).jpeg,t-shirt,blue,solid,sporty,0.765,0
+23,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.10 PM (9).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.10 PM (9).jpeg,t-shirt,black,solid,casual,0.71,0
+24,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.10 PM.jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.10 PM.jpeg,jeans,blue,checked,casual,0.831,0
+26,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.24 PM (1).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.24 PM (1).jpeg,shoes,green,checked,sporty,1.0,0
+27,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.24 PM (2).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.24 PM (2).jpeg,shoes,brown,striped,casual,1.0,0
+28,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.24 PM (3).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.24 PM (3).jpeg,shoes,white,solid,formal,1.0,0
+29,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.24 PM.jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.24 PM.jpeg,shoes,purple,floral,party wear,1.0,0
+30,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.25 PM.jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.25 PM.jpeg,jacket,grey,striped,sporty,0.96,0
+31,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.26 PM (1).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.26 PM (1).jpeg,jacket,red,checked,formal,0.857,0
+36,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.26 PM (14).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.26 PM (14).jpeg,pant,brown,solid,formal,0.817,0
+39,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.26 PM (18).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.26 PM (18).jpeg,t-shirt,green,solid,party wear,0.616,0
+40,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.26 PM (19).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.26 PM (19).jpeg,shirt,white,solid,formal,0.907,0
+41,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.26 PM (2).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.26 PM (2).jpeg,jacket,black,solid,formal,0.982,0
+43,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.26 PM (3).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.26 PM (3).jpeg,dress,purple,printed,party wear,0.909,0
+44,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.26 PM (4).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.26 PM (4).jpeg,dress,orange,striped,formal,1.0,0
+45,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.26 PM (5).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.26 PM (5).jpeg,dress,beige,floral,party wear,0.934,0
+46,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.26 PM (6).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.26 PM (6).jpeg,dress,pink,floral,party wear,0.991,0
+47,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.26 PM (7).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.26 PM (7).jpeg,pant,green,checked,casual,1.0,0
+49,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.26 PM (9).jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.26 PM (9).jpeg,pant,brown,striped,formal,0.919,0
+52,D:\Study\project\smart-wardrobe\backend\uploads\WhatsApp Image 2026-09-03 at 1.04.27 PM.jpeg,uploads/WhatsApp Image 2026-09-03 at 1.04.27 PM.jpeg,shirt,blue,checked,formal,0.834,0
+54,D:\Study\project\smart-wardrobe\backend\uploads\images (2).jpg,uploads/images (2).jpg,pant,green,solid,casual,1.0,0
+56,D:\Study\project\smart-wardrobe\backend\uploads\images (4).jpg,uploads/images (4).jpg,shirt,brown,solid,formal,0.872,0
+58,D:\Study\project\smart-wardrobe\backend\uploads\images (6).jpg,uploads/images (6).jpg,shirt,red,solid,party wear,1.0,0
+60,D:\Study\project\smart-wardrobe\backend\uploads\images.jpg,uploads/images.jpg,pant,white,solid,casual,0.832,0
+61,D:\Study\project\smart-wardrobe\backend\uploads\istockphoto-173239968-612x612.jpg,uploads/istockphoto-173239968-612x612.jpg,jeans,blue,checked,casual,1.0,0
+62,D:\Study\project\smart-wardrobe\backend\uploads\71afb652fc3e4141a57afbc914179111.png,uploads/71afb652fc3e4141a57afbc914179111.png,t-shirt,purple,solid,nightwear,0.83,0
+66,D:\Study\project\smart-wardrobe\backend\uploads\27e0da8daad94a298ac0d22e7c329b8e.png,uploads/27e0da8daad94a298ac0d22e7c329b8e.png,shirt,blue,solid,nightwear,0.917,0
+67,D:\Study\project\smart-wardrobe\backend\uploads\128648bf2e964ec998f283f494d7118d.png,uploads/128648bf2e964ec998f283f494d7118d.png,jeans,blue,solid,casual,0.806,0
+68,D:\Study\project\smart-wardrobe\backend\uploads\eec9d491747e4879ac30be8b5ed103c7.png,uploads/eec9d491747e4879ac30be8b5ed103c7.png,dress,blue,solid,party wear,1.0,0
+69,D:\Study\project\smart-wardrobe\backend\uploads\8fb8ce1dd9aa4ff8b2ff4aafb4a4ad7c.png,uploads/8fb8ce1dd9aa4ff8b2ff4aafb4a4ad7c.png,jacket,blue,solid,casual,1.0,0
+71,D:\Study\project\smart-wardrobe\backend\uploads\5d8d559f70fc4fb99d66b1797f133125.png,uploads/5d8d559f70fc4fb99d66b1797f133125.png,pant,black,solid,formal,0.851,0
+72,D:\Study\project\smart-wardrobe\backend\uploads\a3d328f409cd4d5a84e43d7385744e07.png,uploads/a3d328f409cd4d5a84e43d7385744e07.png,jacket,beige,solid,casual,0.818,0
+75,D:\Study\project\smart-wardrobe\backend\uploads\9dd11a2ebe544029a1c1b09eb00efd6e.png,uploads/9dd11a2ebe544029a1c1b09eb00efd6e.png,jacket,pink,solid,nightwear,0.85,0
+76,D:\Study\project\smart-wardrobe\backend\uploads\e87d4fb32351472781498b026195f617.png,uploads/e87d4fb32351472781498b026195f617.png,shirt,blue,solid,casual,1.0,0
+77,D:\Study\project\smart-wardrobe\backend\uploads\c2feae1692cd4d779f3fc9e0aea2bd5e.png,uploads/c2feae1692cd4d779f3fc9e0aea2bd5e.png,shoes,pink,solid,casual,1.0,0
+79,D:\Study\project\smart-wardrobe\backend\uploads\0877862ace3f4d7b92ead6fdb43d4a83.png,uploads/0877862ace3f4d7b92ead6fdb43d4a83.png,shoes,brown,solid,casual,1.0,0
+81,D:\Study\project\smart-wardrobe\backend\uploads\01cce596ac774014aa9644c643e5a5ab.png,uploads/01cce596ac774014aa9644c643e5a5ab.png,pant,olive,solid,casual,0.827,0
+83,D:\Study\project\smart-wardrobe\backend\uploads\d0aa0584383f4123af029a6f5d916f41.png,uploads/d0aa0584383f4123af029a6f5d916f41.png,dress,white,floral,formal,1.0,0
+84,D:\Study\project\smart-wardrobe\backend\uploads\d9a40e3899d645fea5bc96ef0ec35aa3.png,uploads/d9a40e3899d645fea5bc96ef0ec35aa3.png,jacket,grey,solid,formal,1.0,0
+85,D:\Study\project\smart-wardrobe\backend\uploads\d7f2dbe0e6a74ba6a5ac101fff5a732d.png,uploads/d7f2dbe0e6a74ba6a5ac101fff5a732d.png,dress,blue,floral,formal,1.0,0
+87,D:\Study\project\smart-wardrobe\backend\uploads\c1fc7015833d4b59ab7273551ed16783.png,uploads/c1fc7015833d4b59ab7273551ed16783.png,jacket,black,solid,party wear,1.0,0
+89,D:\Study\project\smart-wardrobe\backend\uploads\0823092f56664ee3aa466a085a751519.png,uploads/0823092f56664ee3aa466a085a751519.png,t-shirt,beige,solid,casual,1.0,0
+92,D:\Study\project\smart-wardrobe\backend\uploads\869459441c124759a424f288e4e4a3f1.png,uploads/869459441c124759a424f288e4e4a3f1.png,shirt,white,solid,formal,0.86,0
+93,D:\Study\project\smart-wardrobe\backend\uploads\b95ddf23029843049ba954ae56ec5528.png,uploads/b95ddf23029843049ba954ae56ec5528.png,t-shirt,pink,solid,casual,1.0,0
+94,D:\Study\project\smart-wardrobe\backend\uploads\b06124e1239b4f3d80d8ae619293d2dc.png,uploads/b06124e1239b4f3d80d8ae619293d2dc.png,shirt,blue,solid,formal,1.0,0
+96,D:\Study\project\smart-wardrobe\backend\uploads\4e57e5e5e5884dbd9986d0ca3ba8c0e5.png,uploads/4e57e5e5e5884dbd9986d0ca3ba8c0e5.png,dress,beige,solid,party wear,1.0,0
+97,D:\Study\project\smart-wardrobe\backend\uploads\1fd69d84cb004fdeadea1e7cd27bcca6.png,uploads/1fd69d84cb004fdeadea1e7cd27bcca6.png,t-shirt,purple,solid,sporty,0.909,0
+99,D:\Study\project\smart-wardrobe\backend\uploads\d23f5949046f48a59934828a89424f7b.png,uploads/d23f5949046f48a59934828a89424f7b.png,dress,green,solid,party wear,1.0,0
+100,D:\Study\project\smart-wardrobe\backend\uploads\b8e13e3e8b724987a6788e0211278983.png,uploads/b8e13e3e8b724987a6788e0211278983.png,jeans,blue,solid,casual,1.0,0
+101,D:\Study\project\smart-wardrobe\backend\uploads\266134bf0af24bcfb7c9f1b3a373fae7.png,uploads/266134bf0af24bcfb7c9f1b3a373fae7.png,jeans,blue,solid,casual,1.0,0
+102,D:\Study\project\smart-wardrobe\backend\uploads\d6ea8069aa4545a388662a711fb559b7.png,uploads/d6ea8069aa4545a388662a711fb559b7.png,jacket,black,solid,sporty,1.0,0
+105,D:\Study\project\smart-wardrobe\backend\uploads\caf2f558d08f45afbed08a31ddab9d65.png,uploads/caf2f558d08f45afbed08a31ddab9d65.png,dress,red,floral,casual,1.0,0
+106,D:\Study\project\smart-wardrobe\backend\uploads\f8d304c99a2342ae94e0e2cc948ef5a2.png,uploads/f8d304c99a2342ae94e0e2cc948ef5a2.png,pant,black,solid,sporty,1.0,0
+107,D:\Study\project\smart-wardrobe\backend\uploads\8020eb9c85804657a48c56f614d19eb4.png,uploads/8020eb9c85804657a48c56f614d19eb4.png,shirt,yellow,solid,casual,1.0,0
+108,D:\Study\project\smart-wardrobe\backend\uploads\de36f790f8764dafa069e4746c4bf27d.png,uploads/de36f790f8764dafa069e4746c4bf27d.png,t-shirt,black,solid,sporty,1.0,0
+110,D:\Study\project\smart-wardrobe\backend\uploads\ae1c55b63d6942249de69af67ca2860c.png,uploads/ae1c55b63d6942249de69af67ca2860c.png,dress,red,solid,formal,1.0,0
+111,D:\Study\project\smart-wardrobe\backend\uploads\f834cde46ce44e19a020c6ea6f136e48.png,uploads/f834cde46ce44e19a020c6ea6f136e48.png,shoes,beige,solid,casual,1.0,0
+113,D:\Study\project\smart-wardrobe\backend\uploads\e12521012eff4551833f3253f656e0fc.png,uploads/e12521012eff4551833f3253f656e0fc.png,shoes,white,solid,casual,1.0,0
+114,D:\Study\project\smart-wardrobe\backend\uploads\c6abea4c8e0b4bed8d1a8efb72d22550.png,uploads/c6abea4c8e0b4bed8d1a8efb72d22550.png,jeans,blue,solid,casual,1.0,0
+115,D:\Study\project\smart-wardrobe\backend\uploads\d70f28d18c8a4caaa8ecc50f6c348102.png,uploads/d70f28d18c8a4caaa8ecc50f6c348102.png,jacket,beige,solid,casual,1.0,0
+117,D:\Study\project\smart-wardrobe\backend\uploads\bbb96a27177b4f6194779f8b8392af07.png,uploads/bbb96a27177b4f6194779f8b8392af07.png,pant,beige,solid,casual,1.0,0
+118,D:\Study\project\smart-wardrobe\backend\uploads\9979f7e90c6c4e5ab38cf122507e6572.png,uploads/9979f7e90c6c4e5ab38cf122507e6572.png,shoes,black,solid,formal,1.0,0
+119,D:\Study\project\smart-wardrobe\backend\uploads\4b3d590b83874f2bab91db1f71222e50.png,uploads/4b3d590b83874f2bab91db1f71222e50.png,t-shirt,white,striped,sporty,1.0,0
+120,D:\Study\project\smart-wardrobe\backend\uploads\ced3d8378b374ad79b13d1c0b84abb18.png,uploads/ced3d8378b374ad79b13d1c0b84abb18.png,pant,beige,solid,casual,1.0,0

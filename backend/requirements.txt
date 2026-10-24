@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+python-multipart
+sqlalchemy
+pillow
+transformers
+torch
+torchvision
+scikit-learn
+numpy
+google-genai
+cloudinary
+python-jose[cryptography]
+passlib[bcrypt]
+python-dotenv
+httpx
